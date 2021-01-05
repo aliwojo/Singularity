@@ -4,13 +4,18 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
+
+  devtool: false,
+
   entry: './src/index.js',
 
   // devServer: {
   //   contentBase: './public',
   //   inline: true,
-  //   hot: true
+  //   hot: true,
   // },
+
   output: {
     path: path.resolve(__dirname, 'public'),
     publicPath: '/public/',
