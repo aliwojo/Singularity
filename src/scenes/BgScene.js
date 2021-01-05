@@ -6,11 +6,10 @@ export default class BgScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('starfield', 'assets/backgrounds/starfield_1.png');
+    this.load.image('starfield', 'assets/backgrounds/starfield.png');
   }
 
   create() {
-    // << LOAD BACKGROUND AND FOREGROUND SCENES IN PARALLEL HERE >>
-    this.image.add(400, 400, 'starfield');
+    this.add.image(400, 400, 'starfield');
   }
 }
