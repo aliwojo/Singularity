@@ -8,5 +8,15 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     this.scene = scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+    this.setCollideWorldBounds(true);
+  }
+  update(cursors) {
+    if (cursors.right.isDown) {
+      this.setAngularVelocity(100);
+    } else if (cursors.left.isDown) {
+      this.setAngularVelocity(-100);
+    } else {
+      this.setAngularVelocity(0);
+    }
   }
 }
