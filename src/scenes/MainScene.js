@@ -5,10 +5,10 @@ import FgScene from './FgScene';
 export default class MainScene extends Phaser.Scene {
   constructor() {
     super('MainScene');
+    this.gameOver = FgScene.gameOver;
   }
 
   create() {
-    // << LOAD BACKGROUND AND FOREGROUND SCENES IN PARALLEL HERE >>
     this.scene.launch('BgScene');
     this.scene.launch('FgScene');
   }
