@@ -9,7 +9,4 @@ export default class Star extends Phaser.Physics.Arcade.Sprite {
     this.scene.add.existing(this);
     this.fuelStore = 10 * scale;
   }
-  depleteFuel() {
-    this.fuelStore = 0;
-  }
 }

@@ -10,35 +10,48 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     this.setCollideWorldBounds(true);
     this.fuelLevel = 100;
     this.resourcesCollected = 0;
+    this.isBoosted = false;
+    this.isStopped = false;
   }
 
   update(cursors, currentZone) {
-    this.updateMovement(cursors);
-
-    this.updateAnimation(currentZone);
-
-    this.scene.physics.velocityFromAngle(this.angle, 100, this.body.velocity);
+    this.updateMovement(cursors, currentZone);
   }
 
-  updateMovement(cursors) {
-    if (cursors.right.isDown) {
-      this.setAngularVelocity(100);
-    } else if (cursors.left.isDown) {
-      this.setAngularVelocity(-100);
+  updateMovement(cursors, currentZone) {
+    if (cursors.up.isDown) {
+      if (!this.isBoosted) {
+        this.scene.physics.velocityFromAngle(
+          this.angle,
+          100,
+          this.body.velocity
+        );
+        this.anims.play('boost');
+        this.fuelLevel -= 4 * currentZone;
+        if (this.fuelLevel < 0) this.fuelLevel = 0;
+        this.isBoosted = true;
+      }
+    } else if (cursors.down.isDown) {
+      if (!this.isStopped) {
+        this.setVelocity(0);
+        this.anims.play('stop', true);
+        this.fuelLevel -= 2;
+        if (this.fuelLevel < 0) this.fuelLevel = 0;
+        this.isStopped = true;
+      }
     } else {
-      this.setAngularVelocity(0);
-    }
-  }
-
-  updateAnimation(currentZone) {
-    if (currentZone < 2) {
-      this.play('idle', true);
-    } else if (currentZone === 2) {
-      this.play('lowPower', true);
-    } else if (currentZone === 3) {
-      this.play('midPower', true);
-    } else {
-      this.play('highPower', true);
+      this.isStopped = false;
+      this.isBoosted = false;
+      if (cursors.right.isDown) {
+        this.setAngularVelocity(200);
+        if (!this.anims.isPlaying) this.anims.play('turnRight', true);
+      } else if (cursors.left.isDown) {
+        this.setAngularVelocity(-200);
+        if (!this.anims.isPlaying) this.anims.play('turnLeft', true);
+      } else {
+        this.setAngularVelocity(0);
+        if (!this.anims.isPlaying) this.anims.play('idle', true);
+      }
     }
   }
 

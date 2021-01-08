@@ -11,12 +11,13 @@ export default class FgScene extends Phaser.Scene {
     super('FgScene');
     this.currentZone = 0;
     this.timeRemaining = 30;
+    this.blackHoleCollision = false;
   }
 
   preload() {
     this.load.image('blackHole', 'assets/sprites/blackHole.png');
     this.load.image('star', 'assets/sprites/star.png');
-    this.load.spritesheet('spaceship', 'assets/spriteSheets/spaceship.png', {
+    this.load.spritesheet('spaceship', 'assets/spriteSheets/spaceship2.png', {
       frameWidth: 64,
       frameHeight: 64,
     });
@@ -30,26 +31,34 @@ export default class FgScene extends Phaser.Scene {
     //sprites
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(1.5)
-      .setCircle(32);
+      .setCircle(16, 16, 16);
 
     this.gravityZoneGroup = this.physics.add.group({
       classType: GravityZone,
     });
     for (let i = 5; i > 0; i--) {
-      this.createGavityZone(i * 0.75);
+      this.createGavityZone(i * 0.75, `zone${i}`);
     }
 
     this.starGroup = this.physics.add.group({ classType: Star });
-    this.createStar(400, 300);
-    this.createStar(600, 500);
-    this.createStar(700, 700);
-    this.createStar(500, 600);
+    this.createStar(150, 150);
+    this.createStar(650, 650);
+    this.createStar(150, 650);
+    this.createStar(650, 150);
 
     this.nebulaGroup = this.physics.add.group({ classType: Nebula });
     this.createNebula(200, 200);
     this.createNebula(200, 400);
+    this.createNebula(400, 200);
+    this.createNebula(400, 600);
+    this.createNebula(300, 300);
+    this.createNebula(300, 500);
+    this.createNebula(350, 350);
+    this.createNebula(600, 400);
 
-    this.spaceship = new Spaceship(this, 100, 100, 'spaceship').setCircle(32);
+    this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
+      .setCircle(32)
+      .setScale(0.8);
 
     //timed events
     this.timer = this.time.addEvent({
@@ -57,7 +66,6 @@ export default class FgScene extends Phaser.Scene {
       loop: true,
       callback: function () {
         this.timeRemaining -= 1 / (2 * this.currentZone);
-        this.spaceship.fuelLevel -= this.currentZone / 2;
       },
       callbackScope: this,
     });
@@ -94,14 +102,34 @@ export default class FgScene extends Phaser.Scene {
       this
     );
 
-    //text
-    this.timerDisplay = this.add
-      .text(50, 20, `Time remaining: ${this.timer}`)
-      .setColor('#69ff33');
+    this.physics.add.overlap(
+      this.spaceship,
+      this.blackHole,
+      () => this.endGame('GAME OVER'),
+      null,
+      this
+    );
 
-    this.fuelLevelDisplay = this.add
-      .text(50, 40, `Fuel Level: ${this.spaceship.fuelLevel}%`)
-      .setColor('#69ff33');
+    //text
+    this.timerDisplay = this.add.text(50, 25, `Time remaining: ${this.timer}`, {
+      color: '#69ff33',
+      fontSize: '20px',
+    });
+
+    this.fuelLevelDisplay = this.add.text(
+      50,
+      50,
+      `Fuel Level: ${this.spaceship.fuelLevel}%`,
+      {
+        color: '#69ff33',
+        fontSize: '20px',
+      }
+    );
+
+    this.resourcesDisplay = this.add.text(640, 25, 'RESOURCES', {
+      color: '#69ff33',
+      fontSize: 20,
+    });
 
     this.availableResources = this.nebulaGroup
       .getChildren()
@@ -109,20 +137,59 @@ export default class FgScene extends Phaser.Scene {
       .reduce((sum, num) => sum + num);
 
     this.availableResourcesDisplay = this.add.text(
-      575,
-      20,
-      `Available Resources: ${this.availableResources}`
+      640,
+      50,
+      `Available: ${this.availableResources}`,
+      {
+        color: '#69ff33',
+      }
     );
 
     this.resourcesCollectedDisplay = this.add.text(
-      575,
-      40,
-      `Resources Collected: ${this.spaceship.resourcesCollected}`
+      640,
+      70,
+      `COLLECTED: ${this.spaceship.resourcesCollected}`,
+      {
+        color: '#69ff33',
+        fontSize: 20,
+      }
     );
 
     this.endgameText = this.add
       .text(400, 400, '', { fontSize: '100px' })
       .setOrigin(0.5);
+
+    this.controlsDisplayLeft = this.add.text(
+      550,
+      750,
+      ' up : boost forward\ndwn : stop',
+      {
+        color: '#69ff33',
+        fontSize: '20px',
+      }
+    );
+
+    this.controlsDisplayRight = this.add.text(
+      20,
+      750,
+      '< : rotate left\n> : rotate right',
+      { color: '#69ff33', fontSize: '20px' }
+    );
+  }
+
+  blackHoleDeathTimer() {
+    if (!this.blackHoleTimer) {
+      this.blackHoleTimer = this.time.addEvent({
+        delay: 200,
+        repeat: 1,
+        callback: function () {
+          if (this.blackHoleCollision) {
+            endGame('DEATH BY BLACK HOLE');
+          }
+        },
+        callbackScope: this,
+      });
+    }
   }
 
   collectFuel(spaceship, star) {
@@ -163,7 +230,7 @@ export default class FgScene extends Phaser.Scene {
       new Star(this, x, y, 'star', scale)
         .setTint(color)
         .setScale(scale)
-        .setCircle(32)
+        .setCircle(20, 12, 12)
     );
   }
 
@@ -176,7 +243,7 @@ export default class FgScene extends Phaser.Scene {
     );
   }
 
-  createGavityZone(scale = 1) {
+  createGavityZone(scale = 1, name) {
     this.gravityZoneGroup.add(
       new GravityZone(this, 'gravityZone').setScale(scale).setCircle(100)
     );
@@ -184,90 +251,97 @@ export default class FgScene extends Phaser.Scene {
 
   createAnims() {
     this.anims.create({
+      key: 'stop',
+      frames: this.anims.generateFrameNumbers('spaceship', {
+        start: 1,
+        end: 4,
+      }),
+      frameRate: 20,
+      repeat: 0,
+    });
+
+    this.anims.create({
+      key: 'turnRight',
+      frames: this.anims.generateFrameNumbers('spaceship', {
+        start: 6,
+        end: 7,
+      }),
+      frameRate: 8,
+      repeat: 0,
+    });
+
+    this.anims.create({
+      key: 'turnLeft',
+      frames: this.anims.generateFrameNumbers('spaceship', {
+        start: 9,
+        end: 10,
+      }),
+      frameRate: 8,
+      repeat: 0,
+    });
+
+    this.anims.create({
+      key: 'boost',
+      frames: this.anims.generateFrameNumbers('spaceship', {
+        start: 13,
+        end: 17,
+      }),
+      frameRate: 14,
+      repeat: 0,
+    });
+
+    this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('spaceship', {
         start: 0,
-        end: 1,
+        end: 0,
       }),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'lowPower',
-      frames: this.anims.generateFrameNumbers('spaceship', {
-        start: 1,
-        end: 2,
-      }),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'midPower',
-      frames: this.anims.generateFrameNumbers('spaceship', {
-        start: 3,
-        end: 4,
-      }),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.anims.create({
-      key: 'highPower',
-      frames: this.anims.generateFrameNumbers('spaceship', {
-        start: 5,
-        end: 6,
-      }),
-      frameRate: 8,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'accelerate',
-      frames: this.anims.generateFrameNumbers('spaceship', {
-        start: 0,
-        end: 6,
-      }),
-      frameRate: 8,
-      repeat: 1,
+      frameRate: 14,
     });
   }
 
-  update(time, delta) {
+  update() {
     this.setCurrentZone();
-    this.spaceship.update(this.cursors, this.currentZone, time);
+    this.removeBlackHoleDeathTimer();
+    this.spaceship.update(this.cursors, this.currentZone);
     this.updateText();
 
-    if (this.spaceship.fuelLevel < 0 || this.timeRemaining < 0) {
-      this.physics.pause();
-      this.tweens.pauseAll();
-      this.anims.pauseAll();
-      this.timer.paused = true;
-      this.endgameText.setText('GAME OVER');
+    if (this.spaceship.fuelLevel === 0 || this.timeRemaining < 0) {
+      this.endGame('GAME OVER');
     }
 
     if (this.spaceship.resourcesCollected === this.availableResources) {
-      this.physics.pause();
-      this.tweens.pauseAll();
-      this.anims.pauseAll();
-      this.timer.paused = true;
-      this.endgameText.setText('YOU WIN!');
+      this.endGame('YOU WIN!');
     }
   }
 
   updateText() {
-    this.timerDisplay.setText(
-      `Time remaining: ${Math.round(this.timeRemaining)}`
-    );
+    this.timerDisplay.setText(`Time: ${Math.round(this.timeRemaining)}`);
     if (this.timeRemaining < 10) this.timerDisplay.setColor('#fa1013');
     this.fuelLevelDisplay.setText(
-      `Fuel Level: ${Math.round(this.spaceship.fuelLevel)}%`
+      `Fuel: ${Math.round(this.spaceship.fuelLevel)}%`
     );
     if (this.spaceship.fuelLevel < 10)
       this.fuelLevelDisplay.setColor('#fa1013');
 
     this.resourcesCollectedDisplay.setText(
-      `Resources Collected: ${this.spaceship.resourcesCollected}`
+      `COLLECTED: ${this.spaceship.resourcesCollected}`
     );
+  }
+
+  removeBlackHoleDeathTimer() {
+    if (this.blackHoleCollision && !this.spaceship.body.touching.blackHole) {
+      this.blackHoleCollision = false;
+      this.blackHoleTimer.destroy();
+    }
+  }
+
+  endGame(message) {
+    this.physics.pause();
+    this.tweens.pauseAll();
+    this.anims.pauseAll();
+    this.timer.paused = true;
+    this.endgameText.setText(message);
+    this.anims.pauseAll();
   }
 }
