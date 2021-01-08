@@ -16,6 +16,7 @@ export default class BgScene extends Phaser.Scene {
     this.enter = this.input.keyboard.addKey('ENTER');
     const mainScene = this.scene.get('MainScene');
     mainScene.scene.restart();
+    this.scene.pause('MainScene');
   }
 
   update() {

@@ -59,6 +59,9 @@ export default class FgScene extends Phaser.Scene {
     this.createNebula(300, 500);
     this.createNebula(350, 350);
     this.createNebula(600, 400);
+    this.createNebula(500, 500);
+    this.createNebula(450, 350);
+    this.createNebula(600, 200);
 
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
       .setCircle(32)
@@ -191,6 +194,7 @@ export default class FgScene extends Phaser.Scene {
     const resources = nebula.resources;
     spaceship.updateResources(resources);
     nebula.depleteResources();
+    nebula.setVisible(false);
   }
 
   setCurrentZone() {
@@ -294,7 +298,7 @@ export default class FgScene extends Phaser.Scene {
     this.spaceship.update(this.cursors, this.currentZone);
     this.updateText();
 
-    if (this.spaceship.fuelLevel === 0 || this.timeRemaining < 0) {
+    if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
       this.scene.start('GameOverScene');
       //this.endGame('GAME OVER');
     }

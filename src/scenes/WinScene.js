@@ -14,6 +14,9 @@ export default class BgScene extends Phaser.Scene {
     this.add.text(400, 400, 'YOU WON!!', { fontSize: '40px' }).setOrigin(0.5);
     this.add.text(400, 500, 'Press ENTER to play again').setOrigin(0.5);
     this.enter = this.input.keyboard.addKey('ENTER');
+    const mainScene = this.scene.get('MainScene');
+    mainScene.scene.restart();
+    this.scene.pause('MainScene');
   }
 
   update() {

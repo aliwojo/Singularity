@@ -26,7 +26,7 @@ export default class BgScene extends Phaser.Scene {
       .text(
         400,
         420,
-        'Rotate the ship with < and > keys\nBoost forward with up key\nStop with dwn key\nRefuel at stars, collect resources at nebulas\nTime slows and fuel consumption increases as you approach the black hole\nEntering the event horizon brings death',
+        'Rotate the ship with < and > keys\nBoost forward with UP key\nStop with DWN key\nRefuel at stars, collect resources at nebulas\nTime slows and fuel consumption increases as you approach the black hole\nEntering the event horizon brings death',
         { align: 'center' }
       )
       .setOrigin(0.5);
