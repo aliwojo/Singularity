@@ -5,6 +5,9 @@ import config from './config/config';
 import MainScene from './scenes/MainScene';
 import BgScene from './scenes/BgScene';
 import FgScene from './scenes/FgScene';
+import OpeningScene from './scenes/OpeningScene';
+import EndScene from './scenes/WinScene';
+import GameOverScene from './scenes/GameOverScene';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -12,8 +15,11 @@ class Game extends Phaser.Game {
     this.scene.add('BgScene', BgScene);
     this.scene.add('FgScene', FgScene);
     this.scene.add('MainScene', MainScene);
+    this.scene.add('OpeningScene', OpeningScene);
+    this.scene.add('WinScene', EndScene);
+    this.scene.add('GameOverScene', GameOverScene);
 
-    this.scene.start('MainScene');
+    this.scene.start('OpeningScene');
   }
 }
 

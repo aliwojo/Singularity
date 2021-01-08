@@ -28,6 +28,10 @@ export default class FgScene extends Phaser.Scene {
   create() {
     this.cursors = this.input.keyboard.createCursorKeys();
 
+    this.currentZone = 0;
+    this.timeRemaining = 30;
+    this.blackHoleCollision = false;
+
     //sprites
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(1.5)
@@ -105,7 +109,7 @@ export default class FgScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.spaceship,
       this.blackHole,
-      () => this.endGame('GAME OVER'),
+      () => this.scene.start('GameOverScene'),
       null,
       this
     );
@@ -175,21 +179,6 @@ export default class FgScene extends Phaser.Scene {
       '< : rotate left\n> : rotate right',
       { color: '#69ff33', fontSize: '20px' }
     );
-  }
-
-  blackHoleDeathTimer() {
-    if (!this.blackHoleTimer) {
-      this.blackHoleTimer = this.time.addEvent({
-        delay: 200,
-        repeat: 1,
-        callback: function () {
-          if (this.blackHoleCollision) {
-            endGame('DEATH BY BLACK HOLE');
-          }
-        },
-        callbackScope: this,
-      });
-    }
   }
 
   collectFuel(spaceship, star) {
@@ -302,16 +291,17 @@ export default class FgScene extends Phaser.Scene {
 
   update() {
     this.setCurrentZone();
-    this.removeBlackHoleDeathTimer();
     this.spaceship.update(this.cursors, this.currentZone);
     this.updateText();
 
     if (this.spaceship.fuelLevel === 0 || this.timeRemaining < 0) {
-      this.endGame('GAME OVER');
+      this.scene.start('GameOverScene');
+      //this.endGame('GAME OVER');
     }
 
     if (this.spaceship.resourcesCollected === this.availableResources) {
-      this.endGame('YOU WIN!');
+      this.scene.start('WinScene');
+      //this.endGame('YOU WIN!');
     }
   }
 
@@ -327,21 +317,5 @@ export default class FgScene extends Phaser.Scene {
     this.resourcesCollectedDisplay.setText(
       `COLLECTED: ${this.spaceship.resourcesCollected}`
     );
-  }
-
-  removeBlackHoleDeathTimer() {
-    if (this.blackHoleCollision && !this.spaceship.body.touching.blackHole) {
-      this.blackHoleCollision = false;
-      this.blackHoleTimer.destroy();
-    }
-  }
-
-  endGame(message) {
-    this.physics.pause();
-    this.tweens.pauseAll();
-    this.anims.pauseAll();
-    this.timer.paused = true;
-    this.endgameText.setText(message);
-    this.anims.pauseAll();
   }
 }
