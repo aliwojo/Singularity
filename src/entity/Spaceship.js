@@ -23,8 +23,11 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     if (cursors.up.isDown) {
       if (!this.isBoosted) {
         this.boosts += 1;
-        const v = this.boosts === 1 ? 100 : 50 + this.boosts * 50;
-        this.scene.physics.velocityFromAngle(this.angle, v, this.body.velocity);
+        this.scene.physics.velocityFromAngle(
+          this.angle,
+          this.boosts * 100,
+          this.body.velocity
+        );
         this.anims.play('boost');
         this.fuelLevel -= 4 * currentZone;
         if (this.fuelLevel < 0) this.fuelLevel = 0;
