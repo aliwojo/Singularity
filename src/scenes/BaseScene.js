@@ -8,9 +8,9 @@ import Nebula from '../entity/Nebula';
 
 export { BlackHole, GravityZone, Spaceship, Star, Nebula };
 
-export default class FgScene extends Phaser.Scene {
-  constructor() {
-    super('FgScene');
+export default class BaseScene extends Phaser.Scene {
+  constructor(name) {
+    super(name);
     this.currentZone = 0;
     this.timeRemaining = 30;
     this.blackHoleCollision = false;
@@ -27,174 +27,29 @@ export default class FgScene extends Phaser.Scene {
     this.load.image('nebula', 'assets/sprites/Nebula.png');
   }
 
-  create() {
+  createPlayerAndControls(scale) {
     this.cursors = this.input.keyboard.createCursorKeys();
+    this.cursors.enter = this.input.keyboard.addKey('ENTER');
+    this.cursors.space = this.input.keyboard.addKey('SPACE');
+    this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
+      .setCircle(32)
+      .setScale(scale);
+  }
 
-    this.currentZone = 0;
-    this.timeRemaining = 30;
-    this.blackHoleCollision = false;
-
-    //sprites
+  //sprites
+  createBlackHole() {
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(1.5)
       .setCircle(16, 16, 16);
+  }
 
+  createObjectGroups() {
     this.gravityZoneGroup = this.physics.add.group({
       classType: GravityZone,
     });
-    for (let i = 5; i > 0; i--) {
-      this.createGavityZone(i * 0.75, `zone${i}`);
-    }
-
     this.starGroup = this.physics.add.group({ classType: Star });
-    this.createStar(150, 150);
-    this.createStar(650, 650);
-    this.createStar(150, 650);
-    this.createStar(650, 150);
-
     this.nutronGroup = this.physics.add.group({ classType: Star });
-    this.createNutronStar(300, 200);
-    this.createNutronStar(200, 300);
-    this.createNutronStar(600, 300);
-    this.createNutronStar(300, 600);
-
     this.nebulaGroup = this.physics.add.group({ classType: Nebula });
-    this.createNebula(200, 200);
-    this.createNebula(200, 400);
-    this.createNebula(400, 200);
-    this.createNebula(400, 600);
-    this.createNebula(300, 300);
-    this.createNebula(300, 500);
-    this.createNebula(350, 350);
-    this.createNebula(600, 400);
-    this.createNebula(500, 500);
-    this.createNebula(450, 350);
-    this.createNebula(600, 200);
-
-    this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
-      .setCircle(32)
-      .setScale(0.8);
-
-    //timed events
-    this.timer = 30;
-    // this.time.addEvent({
-    //   delay: 500,
-    //   loop: true,
-    //   callback: function () {
-    //     this.timeRemaining -= 1 / (2 * this.currentZone);
-    //   },
-    //   callbackScope: this,
-    // });
-
-    //animations and tweens
-    this.createAnims();
-
-    this.tweens.add({
-      targets: [this.blackHole, ...this.gravityZoneGroup.getChildren()],
-      duration: 1000000,
-      ease: 'Power2',
-      angle: 360,
-      repeat: -1,
-    });
-
-    //colliders
-    this.physics.add.overlap(
-      this.spaceship,
-      this.starGroup,
-      this.collectFuel,
-      null,
-      this
-    );
-
-    this.physics.add.overlap(
-      this.spaceship,
-      this.nebulaGroup,
-      this.collectResources,
-      null,
-      this
-    );
-
-    this.physics.add.overlap(
-      this.spaceship,
-      this.blackHole,
-      () => this.scene.start('GameOverScene'),
-      null,
-      this
-    );
-
-    this.physics.add.overlap(
-      this.spaceship,
-      this.nutronGroup,
-      () => this.scene.start('GameOverScene'),
-      null,
-      this
-    );
-
-    //text
-    this.timerDisplay = this.add.text(50, 25, `Time remaining: ${this.timer}`, {
-      color: '#69ff33',
-      fontSize: '20px',
-    });
-
-    this.fuelLevelDisplay = this.add.text(
-      50,
-      50,
-      `Fuel Level: ${this.spaceship.fuelLevel}%`,
-      {
-        color: '#69ff33',
-        fontSize: '20px',
-      }
-    );
-
-    this.resourcesDisplay = this.add.text(640, 25, 'RESOURCES', {
-      color: '#69ff33',
-      fontSize: 20,
-    });
-
-    this.availableResources = this.nebulaGroup
-      .getChildren()
-      .map((nebula) => nebula.resources)
-      .reduce((sum, num) => sum + num);
-
-    this.availableResourcesDisplay = this.add.text(
-      640,
-      50,
-      `Available: ${this.availableResources}`,
-      {
-        color: '#69ff33',
-      }
-    );
-
-    this.resourcesCollectedDisplay = this.add.text(
-      640,
-      70,
-      `COLLECTED: ${this.spaceship.resourcesCollected}`,
-      {
-        color: '#69ff33',
-        fontSize: 20,
-      }
-    );
-
-    this.endgameText = this.add
-      .text(400, 400, '', { fontSize: '100px' })
-      .setOrigin(0.5);
-
-    this.controlsDisplayLeft = this.add.text(
-      550,
-      750,
-      ' up : boost forward\ndwn : stop',
-      {
-        color: '#69ff33',
-        fontSize: '20px',
-      }
-    );
-
-    this.controlsDisplayRight = this.add.text(
-      20,
-      750,
-      '< : rotate left\n> : rotate right',
-      { color: '#69ff33', fontSize: '20px' }
-    );
   }
 
   collectFuel(spaceship, star) {
@@ -264,6 +119,65 @@ export default class FgScene extends Phaser.Scene {
     );
   }
 
+  createStatusDisplay() {
+    this.timerDisplay = this.add.text(50, 25, `Time remaining: ${this.timer}`, {
+      color: '#69ff33',
+      fontSize: '20px',
+    });
+    this.fuelLevelDisplay = this.add.text(
+      50,
+      50,
+      `Fuel Level: ${this.spaceship.fuelLevel}%`,
+      {
+        color: '#69ff33',
+        fontSize: '20px',
+      }
+    );
+    this.resourcesDisplay = this.add.text(640, 25, 'RESOURCES', {
+      color: '#69ff33',
+      fontSize: 20,
+    });
+    this.availableResources = this.nebulaGroup
+      .getChildren()
+      .map((nebula) => nebula.resources)
+      .reduce((sum, num) => sum + num);
+    this.availableResourcesDisplay = this.add.text(
+      640,
+      50,
+      `Available: ${this.availableResources}`,
+      {
+        color: '#69ff33',
+      }
+    );
+    this.resourcesCollectedDisplay = this.add.text(
+      640,
+      70,
+      `COLLECTED: ${this.spaceship.resourcesCollected}`,
+      {
+        color: '#69ff33',
+        fontSize: 20,
+      }
+    );
+  }
+
+  createContolsDisplay() {
+    this.controlsDisplayLeft = this.add.text(
+      550,
+      750,
+      ' up : boost forward\ndwn : stop',
+      {
+        color: '#69ff33',
+        fontSize: '20px',
+      }
+    );
+    this.controlsDisplayRight = this.add.text(
+      20,
+      750,
+      '< : rotate left\n> : rotate right',
+      { color: '#69ff33', fontSize: '20px' }
+    );
+  }
+
   createAnims() {
     this.anims.create({
       key: 'stop',
@@ -313,27 +227,6 @@ export default class FgScene extends Phaser.Scene {
       }),
       frameRate: 14,
     });
-  }
-
-  update() {
-    this.setCurrentZone();
-    this.spaceship.update(this.cursors, this.currentZone);
-    this.updateText();
-    this.updateRotations([
-      ...this.starGroup.getChildren(),
-      ...this.nebulaGroup.getChildren(),
-      ...this.nutronGroup.getChildren(),
-    ]);
-
-    if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
-      this.scene.start('GameOverScene');
-      //this.endGame('GAME OVER');
-    }
-
-    if (this.spaceship.resourcesCollected === this.availableResources) {
-      this.scene.start('WinScene');
-      //this.endGame('YOU WIN!');
-    }
   }
 
   updateText() {

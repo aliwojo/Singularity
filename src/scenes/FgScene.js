@@ -173,10 +173,6 @@ export default class FgScene extends Phaser.Scene {
       }
     );
 
-    this.endgameText = this.add
-      .text(400, 400, '', { fontSize: '100px' })
-      .setOrigin(0.5);
-
     this.controlsDisplayLeft = this.add.text(
       550,
       750,

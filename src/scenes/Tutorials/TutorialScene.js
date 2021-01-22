@@ -1,8 +1,8 @@
 import 'phaser';
 
 export default class FgScene extends Phaser.Scene {
-  constructor() {
-    super('FgScene');
+  constructor(name) {
+    super(name);
     this.currentZone = 0;
     this.timeRemaining = 30;
     this.blackHoleCollision = false;
@@ -19,11 +19,11 @@ export default class FgScene extends Phaser.Scene {
     this.load.image('nebula', 'assets/sprites/Nebula.png');
   }
 
-  createPlayerAndControls() {
+  createPlayerAndControls(scale) {
     this.cursors = this.input.keyboard.createCursorKeys();
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
       .setCircle(32)
-      .setScale(2);
+      .setScale(scale);
   }
 
   //sprites
