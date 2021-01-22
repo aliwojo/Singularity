@@ -183,7 +183,7 @@ export default class BaseScene extends Phaser.Scene {
       key: 'stop',
       frames: this.anims.generateFrameNumbers('spaceship', {
         start: 1,
-        end: 4,
+        end: 5,
       }),
       frameRate: 20,
       repeat: 0,

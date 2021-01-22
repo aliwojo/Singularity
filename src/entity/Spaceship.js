@@ -12,6 +12,7 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     this.resourcesCollected = 0;
     this.isBoosted = false;
     this.isStopped = false;
+    this.boosts = 0;
   }
 
   update(cursors, currentZone) {
@@ -21,11 +22,9 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
   updateMovement(cursors, currentZone) {
     if (cursors.up.isDown) {
       if (!this.isBoosted) {
-        this.scene.physics.velocityFromAngle(
-          this.angle,
-          100,
-          this.body.velocity
-        );
+        this.boosts += 1;
+        const v = this.boosts === 1 ? 100 : 50 + this.boosts * 50;
+        this.scene.physics.velocityFromAngle(this.angle, v, this.body.velocity);
         this.anims.play('boost');
         this.fuelLevel -= 4 * currentZone;
         if (this.fuelLevel < 0) this.fuelLevel = 0;
@@ -34,6 +33,8 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     } else if (cursors.down.isDown) {
       if (!this.isStopped) {
         this.setVelocity(0);
+        this.setAngularVelocity(0);
+        this.boosts = 0;
         this.anims.play('stop', true);
         this.fuelLevel -= 2;
         if (this.fuelLevel < 0) this.fuelLevel = 0;
@@ -44,8 +45,10 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
       this.isBoosted = false;
       if (cursors.right.isDown) {
         this.setAngularVelocity(200);
+        this.boosts = 0;
         if (!this.anims.isPlaying) this.anims.play('turnRight', true);
       } else if (cursors.left.isDown) {
+        this.boosts = 0;
         this.setAngularVelocity(-200);
         if (!this.anims.isPlaying) this.anims.play('turnLeft', true);
       } else {

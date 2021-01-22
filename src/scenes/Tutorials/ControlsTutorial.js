@@ -15,11 +15,13 @@ export default class ControlsTutorial extends BaseScene {
   create() {
     this.add.image(400, 400, 'starfield');
     this.createPlayerAndControls(2);
-    this.createContolsDisplay();
+    this.createAnims();
+    this.add.tileSprite(100, 400, 'Press UP button to boost forward');
   }
 
   update() {
-    if (this.enter.isDown) {
+    this.spaceship.update(this.cursors, this.currentZone);
+    if (this.cursors.enter.isDown) {
       this.scene.start('MainScene');
     }
   }

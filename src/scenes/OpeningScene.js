@@ -31,9 +31,13 @@ export default class BgScene extends Phaser.Scene {
       )
       .setOrigin(0.5);
     this.enter = this.input.keyboard.addKey('ENTER');
+    this.space = this.input.keyboard.addKey('SPACE');
   }
 
   update() {
+    if (this.space.isDown) {
+      this.scene.start('ControlsTutorial');
+    }
     if (this.enter.isDown) {
       this.scene.start('MainScene');
     }
