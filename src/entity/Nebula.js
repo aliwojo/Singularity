@@ -8,6 +8,7 @@ export default class Nebula extends Phaser.Physics.Arcade.Sprite {
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
     this.resources = 5;
+    this.angle = Math.random() * 360;
   }
   depleteResources() {
     this.resources = 0;

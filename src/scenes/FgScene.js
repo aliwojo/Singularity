@@ -50,6 +50,12 @@ export default class FgScene extends Phaser.Scene {
     this.createStar(150, 650);
     this.createStar(650, 150);
 
+    this.nutronGroup = this.physics.add.group({ classType: Star });
+    this.createNutronStar(300, 200);
+    this.createNutronStar(200, 300);
+    this.createNutronStar(600, 300);
+    this.createNutronStar(300, 600);
+
     this.nebulaGroup = this.physics.add.group({ classType: Nebula });
     this.createNebula(200, 200);
     this.createNebula(200, 400);
@@ -68,24 +74,21 @@ export default class FgScene extends Phaser.Scene {
       .setScale(0.8);
 
     //timed events
-    this.timer = this.time.addEvent({
-      delay: 500,
-      loop: true,
-      callback: function () {
-        this.timeRemaining -= 1 / (2 * this.currentZone);
-      },
-      callbackScope: this,
-    });
+    this.timer = 30;
+    // this.time.addEvent({
+    //   delay: 500,
+    //   loop: true,
+    //   callback: function () {
+    //     this.timeRemaining -= 1 / (2 * this.currentZone);
+    //   },
+    //   callbackScope: this,
+    // });
 
     //animations and tweens
     this.createAnims();
 
     this.tweens.add({
-      targets: [
-        this.blackHole,
-        ...this.starGroup.getChildren(),
-        ...this.gravityZoneGroup.getChildren(),
-      ],
+      targets: [this.blackHole, ...this.gravityZoneGroup.getChildren()],
       duration: 1000000,
       ease: 'Power2',
       angle: 360,
@@ -112,6 +115,14 @@ export default class FgScene extends Phaser.Scene {
     this.physics.add.overlap(
       this.spaceship,
       this.blackHole,
+      () => this.scene.start('GameOverScene'),
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.spaceship,
+      this.nutronGroup,
       () => this.scene.start('GameOverScene'),
       null,
       this
@@ -227,6 +238,15 @@ export default class FgScene extends Phaser.Scene {
     );
   }
 
+  createNutronStar(x, y, color, scale = 0.5) {
+    this.nutronGroup.add(
+      new Star(this, x, y, 'star', scale)
+        .setTint(color)
+        .setScale(scale)
+        .setCircle(20, 12, 12)
+    );
+  }
+
   createNebula(x, y, color, scale = 1) {
     this.nebulaGroup.add(
       new Nebula(this, x, y, 'nebula', scale)
@@ -297,6 +317,11 @@ export default class FgScene extends Phaser.Scene {
     this.setCurrentZone();
     this.spaceship.update(this.cursors, this.currentZone);
     this.updateText();
+    this.updateRotations([
+      ...this.starGroup.getChildren(),
+      ...this.nebulaGroup.getChildren(),
+      ...this.nutronGroup.getChildren(),
+    ]);
 
     if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
       this.scene.start('GameOverScene');
@@ -321,5 +346,13 @@ export default class FgScene extends Phaser.Scene {
     this.resourcesCollectedDisplay.setText(
       `COLLECTED: ${this.spaceship.resourcesCollected}`
     );
+  }
+
+  updateRotations(objects) {
+    objects.forEach((obj) => {
+      const distance = Phaser.Math.Distance.Between(400, 400, obj.x, obj.y);
+      Phaser.Actions.RotateAround([obj], { x: 400, y: 400 }, 0.3 / distance);
+      obj.setAngularVelocity(10);
+    });
   }
 }
