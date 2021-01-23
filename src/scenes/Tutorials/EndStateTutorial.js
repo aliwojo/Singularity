@@ -15,7 +15,7 @@ export default class GoalsTutorial extends BaseScene {
   create() {
     this.add.image(400, 400, 'starfield');
     this.textOne = this.add
-      .text(400, 350, 'BLACK HOLE = DEATH', {
+      .text(400, 300, 'BLACK HOLE and NEUTRON STARS = DEATH', {
         fontSize: '20px',
         align: 'center',
       })
@@ -23,8 +23,8 @@ export default class GoalsTutorial extends BaseScene {
     this.textTwo = this.add
       .text(
         400,
-        450,
-        'Fuel consumption increases the closer\nyou are to the BLACK HOLE',
+        500,
+        'Fuel consumption increases\nand time slows the closer\nyou are to the BLACK HOLE',
         {
           fontSize: '20px',
           align: 'center',
@@ -32,12 +32,12 @@ export default class GoalsTutorial extends BaseScene {
       )
       .setOrigin(0.5);
     this.textThree = this.add
-      .text(600, 650, 'Avoid Neutron Stars', {
-        fontSize: '20px',
+      .text(400, 600, '', {
+        fontSize: '30px',
       })
       .setOrigin(0.5);
     this.textFour = this.add
-      .text(400, 150, 'Neuton starts = DEATH', {
+      .text(400, 150, '', {
         fontSize: '20px',
       })
       .setOrigin(0.5);
@@ -51,7 +51,12 @@ export default class GoalsTutorial extends BaseScene {
     this.createNebula(600, 250);
     this.createPlayerAndControls(1);
     this.createAnims();
-    this.createColliders(this.collectFuel, this.collectResources);
+    this.createColliders(
+      this.collectFuel,
+      this.collectResources,
+      this.fakeGameOver,
+      this.fakeGameOver
+    );
     this.createContolsDisplay();
     this.createStatusDisplay();
   }
@@ -71,8 +76,25 @@ export default class GoalsTutorial extends BaseScene {
         this.scene.start('MainScene');
       }
     }
+    if (this.spaceship.fuelLevel === 0) {
+      this.fakeGameOver();
+      this.fuelLevelDisplay.setColor('#69ff33');
+      this.spaceship.fuelLevel = 100;
+    }
     if (this.cursors.enter.isDown) {
       this.scene.start('MainScene');
     }
+  }
+
+  fakeGameOver() {
+    this.textThree.setText('GAME OVER');
+    this.time.addEvent({
+      delay: 1000,
+      loop: false,
+      callback: function () {
+        this.textThree.setText('');
+      },
+      callbackScope: this,
+    });
   }
 }
