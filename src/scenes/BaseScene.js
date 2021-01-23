@@ -147,10 +147,12 @@ export default class BaseScene extends Phaser.Scene {
     );
   }
 
-  createGavityZone(scale = 1, name) {
-    this.gravityZoneGroup.add(
-      new GravityZone(this, 'gravityZone').setScale(scale).setCircle(100)
-    );
+  createGavityZones() {
+    for (let i = 5; i > 0; i--) {
+      this.gravityZoneGroup.add(
+        new GravityZone(this, 'gravityZone').setScale(i * 0.75).setCircle(100)
+      );
+    }
   }
 
   createStatusDisplay() {

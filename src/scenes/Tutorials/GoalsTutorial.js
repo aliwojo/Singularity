@@ -10,65 +10,56 @@ import BaseScene, {
 export default class GoalsTutorial extends BaseScene {
   constructor() {
     super('GoalsTutorial');
-    this.controlsLearned = 0;
-    this.learnedUp = false;
   }
 
   create() {
     this.add.image(400, 400, 'starfield');
     this.textOne = this.add
-      .text(400, 400, 'Collect Nebulas', { fontSize: '30px', align: 'center' })
+      .text(400, 450, 'AVOID THE BLACK HOLE', {
+        fontSize: '20px',
+        align: 'center',
+      })
       .setOrigin(0.5);
     this.textTwo = this.add
-      .text(400, 400, 'Refuel at Yellow Stars', {
-        fontSize: '30px',
+      .text(200, 650, 'Refuel once at each\nYellow Stars', {
+        fontSize: '20px',
+        align: 'center',
       })
-      .setOrigin(0.5)
-      .setVisible(false);
+      .setOrigin(0.5);
     this.textThree = this.add
-      .text(400, 400, 'Avoid Neutron Stars', {
-        fontSize: '30px',
+      .text(600, 650, 'Avoid Neutron Stars', {
+        fontSize: '20px',
       })
-      .setOrigin(0.5)
-      .setVisible(false);
+      .setOrigin(0.5);
     this.textFour = this.add
-      .text(400, 400, 'Avoid the Black Hole', {
-        fontSize: '30px',
+      .text(400, 150, 'Collect Nebulas before fuel runs out to WIN', {
+        fontSize: '20px',
       })
-      .setOrigin(0.5)
-      .setVisible(false);
-    this.textFive = this.add
-      .text(400, 400, 'When you are ready, press SPACE to continue', {
-        fontSize: '30px',
-      })
-      .setOrigin(0.5)
-      .setVisible(false);
-    this.add.text(400, 700, 'Press ENTER to start playing').setOrigin(0.5);
+      .setOrigin(0.5);
+    this.add.text(400, 750, 'Press ENTER to start playing').setOrigin(0.5);
     this.createBlackHole(2);
     this.createObjectGroups();
-    this.createStar(600, 200, null, 2);
-    this.createNeutronStar(200, 600, null, 1);
-    this.createNebula(600, 600, null, 2);
+    this.createStar(200, 600, null, 2);
+    this.createNeutronStar(600, 600, null, 1);
+    this.createNebula(200, 250, null, 2);
+    this.createNebula(600, 250, null, 2);
     this.createPlayerAndControls(2);
     this.createAnims();
     this.createColliders(this.collectFuel, this.collectResources);
+    this.createContolsDisplay();
+    this.createStatusDisplay();
   }
 
   update() {
+    this.setCurrentZone();
     this.spaceship.update(this.cursors, this.currentZone);
-    switch (this.controlsLearned) {
-      case 0: {
-      }
-      case 1: {
-      }
-      case 2: {
-      }
-      case 3: {
-      }
-      case 4: {
+    this.updateText();
+    if (this.spaceship.resourcesCollected === this.availableResources) {
+      this.textFour.setText('Press SPACE to continue tutorial');
+      if (this.cursors.space.isDown) {
+        this.scene.start('EndStateTutorial');
       }
     }
-
     if (this.cursors.enter.isDown) {
       this.scene.start('MainScene');
     }

@@ -10,12 +10,14 @@ import EndScene from './scenes/WinScene';
 import GameOverScene from './scenes/GameOverScene';
 import ControlsTutorial from './scenes/Tutorials/ControlsTutorial';
 import GoalsTutorial from './scenes/Tutorials/GoalsTutorial';
+import EndStateTutorial from './scenes/Tutorials/EndStateTutorial';
 
 class Game extends Phaser.Game {
   constructor() {
     super(config);
     this.scene.add('ControlsTutorial', ControlsTutorial);
     this.scene.add('GoalsTutorial', GoalsTutorial);
+    this.scene.add('EndStateTutorial', EndStateTutorial);
     this.scene.add('BgScene', BgScene);
     this.scene.add('FgScene', FgScene);
     this.scene.add('MainScene', MainScene);

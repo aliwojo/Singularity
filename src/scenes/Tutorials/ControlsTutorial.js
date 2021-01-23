@@ -4,8 +4,7 @@ import BaseScene from '../BaseScene';
 export default class ControlsTutorial extends BaseScene {
   constructor() {
     super('ControlsTutorial');
-    this.controlsLearned = 0;
-    this.learnedUp = false;
+    this.stage = 'boost';
   }
 
   create() {
@@ -49,48 +48,36 @@ export default class ControlsTutorial extends BaseScene {
 
   update() {
     this.spaceship.update(this.cursors, this.currentZone);
-    switch (this.controlsLearned) {
-      case 0: {
-        if (this.cursors.up.isDown) {
-          this.time.addEvent({
-            delay: 2000,
-            loop: false,
-            callback: function () {
-              this.textOne.setVisible(false);
-              this.textTwo.setVisible(true);
-              this.controlsLearned = 2;
-            },
-            callbackScope: this,
-          });
-          this.controlsLearned = 1;
-        }
-      }
-      case 2: {
-        if (this.cursors.down.isDown) {
-          this.textTwo.setVisible(false);
-          this.textThree.setVisible(true);
-          this.controlsLearned = 2;
-        }
-      }
-      case 3: {
-        if (this.cursors.right.isDown) {
-          this.textThree.setVisible(false);
-          this.textFour.setVisible(true);
-          this.controlsLearned = 3;
-        }
-      }
-      case 4: {
-        if (this.cursors.left.isDown) {
-          this.textFour.setVisible(false);
-          this.textFive.setVisible(true);
-          this.controlsLearned = 4;
-        }
-      }
-      case 5: {
-        if (this.cursors.space.isDown) {
-          this.scene.start('GoalsTutorial');
-        }
-      }
+    if (this.cursors.up.isDown && this.stage === 'boost') {
+      this.time.addEvent({
+        delay: 2000,
+        loop: false,
+        callback: function () {
+          this.textOne.setVisible(false);
+          this.textTwo.setVisible(true);
+          this.stage = 'stop';
+        },
+        callbackScope: this,
+      });
+      this.stage = 'boost2';
+    }
+    if (this.cursors.down.isDown && this.stage === 'stop') {
+      this.textTwo.setVisible(false);
+      this.textThree.setVisible(true);
+      this.stage = 'right';
+    }
+    if (this.cursors.right.isDown && this.stage === 'right') {
+      this.textThree.setVisible(false);
+      this.textFour.setVisible(true);
+      this.stage = 'left';
+    }
+    if (this.cursors.left.isDown && this.stage === 'left') {
+      this.textFour.setVisible(false);
+      this.textFive.setVisible(true);
+      this.stage = 'continue';
+    }
+    if (this.cursors.space.isDown && this.stage === 'continue') {
+      this.scene.start('GoalsTutorial');
     }
 
     if (this.cursors.enter.isDown) {

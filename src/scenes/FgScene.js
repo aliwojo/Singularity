@@ -40,17 +40,14 @@ export default class FgScene extends Phaser.Scene {
     this.gravityZoneGroup = this.physics.add.group({
       classType: GravityZone,
     });
-    for (let i = 5; i > 0; i--) {
-      this.createGavityZone(i * 0.75, `zone${i}`);
-    }
-
+    this.createGavityZones();
     this.starGroup = this.physics.add.group({ classType: Star });
     this.createStar(150, 150);
     this.createStar(650, 650);
     this.createStar(150, 650);
     this.createStar(650, 150);
 
-    this.nutronGroup = this.physics.add.group({ classType: Star });
+    this.neutronGroup = this.physics.add.group({ classType: Star });
     this.createNutronStar(300, 200);
     this.createNutronStar(200, 300);
     this.createNutronStar(600, 300);
@@ -122,7 +119,7 @@ export default class FgScene extends Phaser.Scene {
 
     this.physics.add.overlap(
       this.spaceship,
-      this.nutronGroup,
+      this.neutronGroup,
       () => this.scene.start('GameOverScene'),
       null,
       this
@@ -252,10 +249,12 @@ export default class FgScene extends Phaser.Scene {
     );
   }
 
-  createGavityZone(scale = 1, name) {
-    this.gravityZoneGroup.add(
-      new GravityZone(this, 'gravityZone').setScale(scale).setCircle(100)
-    );
+  createGavityZones() {
+    for (let i = 5; i > 0; i--) {
+      this.gravityZoneGroup.add(
+        new GravityZone(this, 'gravityZone').setScale(i * 0.75).setCircle(100)
+      );
+    }
   }
 
   createAnims() {
@@ -316,7 +315,7 @@ export default class FgScene extends Phaser.Scene {
     this.updateRotations([
       ...this.starGroup.getChildren(),
       ...this.nebulaGroup.getChildren(),
-      ...this.nutronGroup.getChildren(),
+      ...this.neutronGroup.getChildren(),
     ]);
 
     if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
