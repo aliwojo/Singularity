@@ -51,7 +51,7 @@ export default class GoalsTutorial extends BaseScene {
     this.createNebula(600, 600, null, 2);
     this.createPlayerAndControls(2);
     this.createAnims();
-    this.createColliders();
+    this.createColliders(this.collectFuel, this.collectResources);
   }
 
   update() {

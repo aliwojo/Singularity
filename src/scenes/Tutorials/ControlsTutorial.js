@@ -58,34 +58,35 @@ export default class ControlsTutorial extends BaseScene {
             callback: function () {
               this.textOne.setVisible(false);
               this.textTwo.setVisible(true);
-              this.controlsLearned = 1;
+              this.controlsLearned = 2;
             },
             callbackScope: this,
           });
+          this.controlsLearned = 1;
         }
       }
-      case 1: {
+      case 2: {
         if (this.cursors.down.isDown) {
           this.textTwo.setVisible(false);
           this.textThree.setVisible(true);
           this.controlsLearned = 2;
         }
       }
-      case 2: {
+      case 3: {
         if (this.cursors.right.isDown) {
           this.textThree.setVisible(false);
           this.textFour.setVisible(true);
           this.controlsLearned = 3;
         }
       }
-      case 3: {
+      case 4: {
         if (this.cursors.left.isDown) {
           this.textFour.setVisible(false);
           this.textFive.setVisible(true);
           this.controlsLearned = 4;
         }
       }
-      case 4: {
+      case 5: {
         if (this.cursors.space.isDown) {
           this.scene.start('GoalsTutorial');
         }
