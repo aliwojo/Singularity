@@ -16,8 +16,6 @@ export default class GoalsTutorial extends BaseScene {
 
   create() {
     this.add.image(400, 400, 'starfield');
-    this.createPlayerAndControls(2);
-    this.createAnims();
     this.textOne = this.add
       .text(400, 400, 'Collect Nebulas', { fontSize: '30px', align: 'center' })
       .setOrigin(0.5);
@@ -46,6 +44,14 @@ export default class GoalsTutorial extends BaseScene {
       .setOrigin(0.5)
       .setVisible(false);
     this.add.text(400, 700, 'Press ENTER to start playing').setOrigin(0.5);
+    this.createBlackHole(2);
+    this.createObjectGroups();
+    this.createStar(600, 200, null, 2);
+    this.createNeutronStar(200, 600, null, 1);
+    this.createNebula(600, 600, null, 2);
+    this.createPlayerAndControls(2);
+    this.createAnims();
+    this.createColliders();
   }
 
   update() {

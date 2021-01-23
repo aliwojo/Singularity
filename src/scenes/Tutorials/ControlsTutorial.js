@@ -52,12 +52,16 @@ export default class ControlsTutorial extends BaseScene {
     switch (this.controlsLearned) {
       case 0: {
         if (this.cursors.up.isDown) {
-          if (this.learnedUp) {
-            this.textOne.setVisible(false);
-            this.textTwo.setVisible(true);
-            this.controlsLearned = 1;
-          }
-          this.learnedUp = true;
+          this.time.addEvent({
+            delay: 2000,
+            loop: false,
+            callback: function () {
+              this.textOne.setVisible(false);
+              this.textTwo.setVisible(true);
+              this.controlsLearned = 1;
+            },
+            callbackScope: this,
+          });
         }
       }
       case 1: {

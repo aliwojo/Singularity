@@ -37,9 +37,9 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   //sprites
-  createBlackHole() {
+  createBlackHole(scale) {
     this.blackHole = new BlackHole(this, 'blackHole')
-      .setScale(1.5)
+      .setScale(scale)
       .setCircle(16, 16, 16);
   }
 
@@ -48,8 +48,42 @@ export default class BaseScene extends Phaser.Scene {
       classType: GravityZone,
     });
     this.starGroup = this.physics.add.group({ classType: Star });
-    this.nutronGroup = this.physics.add.group({ classType: Star });
+    this.neutronGroup = this.physics.add.group({ classType: Star });
     this.nebulaGroup = this.physics.add.group({ classType: Nebula });
+  }
+
+  createColliders(starFunc, nebulaFunc, neutronFunc, bHFunc) {
+    this.physics.add.overlap(
+      this.spaceship,
+      this.starGroup,
+      starFunc,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.spaceship,
+      this.nebulaGroup,
+      nebulaFunc,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.spaceship,
+      this.blackHole,
+      bHFunc,
+      null,
+      this
+    );
+
+    this.physics.add.overlap(
+      this.spaceship,
+      this.neutronGroup,
+      neutronFunc,
+      null,
+      this
+    );
   }
 
   collectFuel(spaceship, star) {
@@ -95,8 +129,8 @@ export default class BaseScene extends Phaser.Scene {
     );
   }
 
-  createNutronStar(x, y, color, scale = 0.5) {
-    this.nutronGroup.add(
+  createNeutronStar(x, y, color, scale = 0.5) {
+    this.neutronGroup.add(
       new Star(this, x, y, 'star', scale)
         .setTint(color)
         .setScale(scale)
