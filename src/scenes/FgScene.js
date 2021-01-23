@@ -72,14 +72,14 @@ export default class FgScene extends Phaser.Scene {
 
     //timed events
     this.timer = 30;
-    // this.time.addEvent({
-    //   delay: 500,
-    //   loop: true,
-    //   callback: function () {
-    //     this.timeRemaining -= 1 / (2 * this.currentZone);
-    //   },
-    //   callbackScope: this,
-    // });
+    this.time.addEvent({
+      delay: 500,
+      loop: true,
+      callback: function () {
+        this.timeRemaining -= 1 / (2 * this.currentZone);
+      },
+      callbackScope: this,
+    });
 
     //animations and tweens
     this.createAnims();
@@ -232,7 +232,7 @@ export default class FgScene extends Phaser.Scene {
   }
 
   createNutronStar(x, y, color, scale = 0.5) {
-    this.nutronGroup.add(
+    this.neutronGroup.add(
       new Star(this, x, y, 'star', scale)
         .setTint(color)
         .setScale(scale)
