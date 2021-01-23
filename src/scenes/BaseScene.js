@@ -37,7 +37,7 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   //sprites
-  createBlackHole(scale) {
+  createBlackHole(scale = 1) {
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(scale)
       .setCircle(16, 16, 16);
@@ -285,5 +285,19 @@ export default class BaseScene extends Phaser.Scene {
       Phaser.Actions.RotateAround([obj], { x: 400, y: 400 }, 0.3 / distance);
       obj.setAngularVelocity(10);
     });
+  }
+  gameOver() {
+    this.scene.start('GameOverScene');
+  }
+  statusEndGame() {
+    if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
+      this.scene.start('GameOverScene');
+      //this.endGame('GAME OVER');
+    }
+
+    if (this.spaceship.resourcesCollected === this.availableResources) {
+      this.scene.start('WinScene');
+      //this.endGame('YOU WIN!');
+    }
   }
 }
