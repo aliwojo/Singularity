@@ -11,6 +11,7 @@ import GameOverScene from './scenes/GameOverScene';
 import ControlsTutorial from './scenes/Tutorials/ControlsTutorial';
 import GoalsTutorial from './scenes/Tutorials/GoalsTutorial';
 import EndStateTutorial from './scenes/Tutorials/EndStateTutorial';
+import ControlsRemap from './scenes/ControlsRemap';
 
 class Game extends Phaser.Game {
   constructor() {
@@ -18,6 +19,7 @@ class Game extends Phaser.Game {
     this.scene.add('ControlsTutorial', ControlsTutorial);
     this.scene.add('GoalsTutorial', GoalsTutorial);
     this.scene.add('EndStateTutorial', EndStateTutorial);
+    this.scene.add('ControlsRemap', ControlsRemap);
     this.scene.add('BgScene', BgScene);
     this.scene.add('FgScene', FgScene);
     this.scene.add('MainScene', MainScene);

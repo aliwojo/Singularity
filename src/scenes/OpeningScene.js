@@ -15,9 +15,14 @@ export default class BgScene extends Phaser.Scene {
       .text(400, 300, 'Black Hole Miner', { fontSize: '40px' })
       .setOrigin(0.5);
     this.add
-      .text(400, 550, 'Press ENTER to begin\nPress SPACE for tutorial', {
-        align: 'center',
-      })
+      .text(
+        400,
+        500,
+        'Press ENTER to begin\n\nPress SPACE for tutorial\n\nPress SHIFT to choose control scheme',
+        {
+          align: 'center',
+        }
+      )
       .setOrigin(0.5);
     this.add
       .text(
@@ -28,6 +33,7 @@ export default class BgScene extends Phaser.Scene {
       .setOrigin(0.5);
     this.enter = this.input.keyboard.addKey('ENTER');
     this.space = this.input.keyboard.addKey('SPACE');
+    this.shift = this.input.keyboard.addKey('SHIFT');
   }
 
   update() {
@@ -36,6 +42,9 @@ export default class BgScene extends Phaser.Scene {
     }
     if (this.enter.isDown) {
       this.scene.start('MainScene');
+    }
+    if (this.shift.isDown) {
+      this.scene.start('ControlsRemap');
     }
   }
 }

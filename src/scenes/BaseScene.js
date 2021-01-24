@@ -15,6 +15,7 @@ export default class BaseScene extends Phaser.Scene {
     this.currentZone = 0;
     this.timeRemaining = 30;
     this.blackHoleCollision = false;
+    this.controls = controlsStore.getState();
   }
 
   preload() {
@@ -28,15 +29,15 @@ export default class BaseScene extends Phaser.Scene {
     this.load.image('nebula', 'assets/sprites/Nebula.png');
   }
 
-  createPlayerAndControls(scale) {
-    const keys = controlsStore.getState();
+  createPlayerAndControls(scale = 1) {
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.cursors.up = this.input.keyboard.addKey(keys.up);
-    this.cursors.down = this.input.keyboard.addKey(keys.down);
-    this.cursors.right = this.input.keyboard.addKey(keys.right);
-    this.cursors.left = this.input.keyboard.addKey(keys.left);
-    this.cursors.enter = this.input.keyboard.addKey('ENTER');
-    this.cursors.space = this.input.keyboard.addKey('SPACE');
+    this.cursors.up = this.input.keyboard.addKey(this.controls.up);
+    this.cursors.down = this.input.keyboard.addKey(this.controls.down);
+    this.cursors.right = this.input.keyboard.addKey(this.controls.right);
+    this.cursors.left = this.input.keyboard.addKey(this.controls.left);
+    this.cursors.enter = this.input.keyboard.addKey(this.cursors.enter);
+    this.cursors.space = this.input.keyboard.addKey(this.cursors.space);
+    this.cursors.shift = this.input.keyboard.addKey(this.cursors.shift);
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
       .setCircle(32)
       .setScale(scale);
