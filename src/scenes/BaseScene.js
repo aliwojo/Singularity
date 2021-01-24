@@ -15,7 +15,6 @@ export default class BaseScene extends Phaser.Scene {
     this.currentZone = 0;
     this.timeRemaining = 30;
     this.blackHoleCollision = false;
-    this.controls = controlsStore.getState();
   }
 
   preload() {
@@ -30,6 +29,7 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createPlayerAndControls(scale = 1) {
+    this.controls = controlsStore.getState();
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.up = this.input.keyboard.addKey(this.controls.up);
     this.cursors.down = this.input.keyboard.addKey(this.controls.down);

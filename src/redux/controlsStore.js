@@ -47,7 +47,7 @@ const leftHandSpread = {
 const rightHandSpread = {
   style: 'rhs',
   up: 'J',
-  down: 'COLON',
+  down: 'SEMICOLON',
   left: 'I',
   right: 'O',
   enter: 'ENTER',
