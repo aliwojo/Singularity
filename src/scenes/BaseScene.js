@@ -1,4 +1,5 @@
 import 'phaser';
+import controlsStore from '../redux/controlsStore';
 
 import BlackHole from '../entity/BlackHole';
 import GravityZone from '../entity/GravityZone';
@@ -27,12 +28,13 @@ export default class BaseScene extends Phaser.Scene {
     this.load.image('nebula', 'assets/sprites/Nebula.png');
   }
 
-  createPlayerAndControls(scale, up, down, right, left) {
+  createPlayerAndControls(scale) {
+    const keys = controlsStore.getState();
     this.cursors = this.input.keyboard.createCursorKeys();
-    this.cursors.up = this.input.keyboard.addKey(up);
-    this.cursors.down = this.input.keyboard.addKey(down);
-    this.cursors.right = this.input.keyboard.addKey(right);
-    this.cursors.left = this.input.keyboard.addKey(left);
+    this.cursors.up = this.input.keyboard.addKey(keys.up);
+    this.cursors.down = this.input.keyboard.addKey(keys.down);
+    this.cursors.right = this.input.keyboard.addKey(keys.right);
+    this.cursors.left = this.input.keyboard.addKey(keys.left);
     this.cursors.enter = this.input.keyboard.addKey('ENTER');
     this.cursors.space = this.input.keyboard.addKey('SPACE');
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')

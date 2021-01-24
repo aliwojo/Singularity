@@ -45,7 +45,7 @@ export default class FgScene extends BaseScene {
     this.createNebula(450, 350);
     this.createNebula(600, 200);
 
-    this.createPlayerAndControls(1, 'W', 'S', 'D', 'A');
+    this.createPlayerAndControls(1);
 
     //timed events
     this.timer = 30;
