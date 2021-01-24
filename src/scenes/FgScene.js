@@ -45,7 +45,7 @@ export default class FgScene extends BaseScene {
     this.createNebula(450, 350);
     this.createNebula(600, 200);
 
-    this.createPlayerAndControls();
+    this.createPlayerAndControls(1, 'W', 'S', 'D', 'A');
 
     //timed events
     this.timer = 30;
@@ -91,7 +91,6 @@ export default class FgScene extends BaseScene {
       ...this.nebulaGroup.getChildren(),
       ...this.neutronGroup.getChildren(),
     ]);
-
     this.statusEndGame();
   }
 }
