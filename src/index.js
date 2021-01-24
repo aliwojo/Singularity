@@ -3,8 +3,6 @@
 import 'phaser';
 import config from './config/config';
 import MainScene from './scenes/MainScene';
-import BgScene from './scenes/BgScene';
-import FgScene from './scenes/FgScene';
 import OpeningScene from './scenes/OpeningScene';
 import EndScene from './scenes/WinScene';
 import GameOverScene from './scenes/GameOverScene';
@@ -20,8 +18,6 @@ class Game extends Phaser.Game {
     this.scene.add('GoalsTutorial', GoalsTutorial);
     this.scene.add('EndStateTutorial', EndStateTutorial);
     this.scene.add('ControlsRemap', ControlsRemap);
-    this.scene.add('BgScene', BgScene);
-    this.scene.add('FgScene', FgScene);
     this.scene.add('MainScene', MainScene);
     this.scene.add('OpeningScene', OpeningScene);
     this.scene.add('WinScene', EndScene);

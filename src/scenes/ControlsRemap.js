@@ -115,6 +115,4 @@ export default class ControlsRemap extends BaseScene {
       this.scene.start('OpeningScene');
     }
   }
-
-  updateChoice() {}
 }

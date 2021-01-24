@@ -207,7 +207,7 @@ export default class BaseScene extends Phaser.Scene {
     this.controlsDisplayLeft = this.add.text(
       550,
       750,
-      ' up : boost forward\ndwn : stop',
+      `${this.controls.up} : boost forward\n${this.controls.down} : stop`,
       {
         color: '#69ff33',
         fontSize: '20px',
@@ -216,7 +216,7 @@ export default class BaseScene extends Phaser.Scene {
     this.controlsDisplayRight = this.add.text(
       20,
       750,
-      '< : rotate left\n> : rotate right',
+      `${this.controls.left} : rotate left\n${this.controls.right} : rotate right`,
       { color: '#69ff33', fontSize: '20px' }
     );
   }

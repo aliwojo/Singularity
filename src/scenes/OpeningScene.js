@@ -1,4 +1,5 @@
 import 'phaser';
+import controlsStore from '../redux/controlsStore';
 
 export default class BgScene extends Phaser.Scene {
   constructor() {
@@ -11,6 +12,10 @@ export default class BgScene extends Phaser.Scene {
 
   create() {
     this.add.image(400, 400, 'starfield');
+    this.controls = controlsStore.getState();
+    this.enter = this.input.keyboard.addKey(this.controls.enter);
+    this.space = this.input.keyboard.addKey(this.controls.space);
+    this.shift = this.input.keyboard.addKey(this.controls.shift);
     this.add
       .text(400, 300, 'Black Hole Miner', { fontSize: '40px' })
       .setOrigin(0.5);
@@ -18,7 +23,7 @@ export default class BgScene extends Phaser.Scene {
       .text(
         400,
         500,
-        'Press ENTER to begin\n\nPress SPACE for tutorial\n\nPress SHIFT to choose control scheme',
+        `Press ${this.controls.enter} to begin\n\nPress SPACE for tutorial\n\nPress SHIFT to choose control scheme`,
         {
           align: 'center',
         }
@@ -31,9 +36,6 @@ export default class BgScene extends Phaser.Scene {
         'Black Holes are dangerous, but the resources in orbit are valuable'
       )
       .setOrigin(0.5);
-    this.enter = this.input.keyboard.addKey('ENTER');
-    this.space = this.input.keyboard.addKey('SPACE');
-    this.shift = this.input.keyboard.addKey('SHIFT');
   }
 
   update() {
