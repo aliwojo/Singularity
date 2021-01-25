@@ -4,46 +4,54 @@ import BaseScene from '../BaseScene';
 export default class ControlsTutorial extends BaseScene {
   constructor() {
     super('ControlsTutorial');
-    this.stage = 'boost';
   }
 
   create() {
     this.add.image(400, 400, 'starfield');
-    this.createPlayerAndControls(2);
+    this.createControls();
     this.createAnims();
     this.textOne = this.add
       .text(
         400,
         400,
-        'Press UP button to boost forward\n\nBoosts can be stacked to increase speed',
+        `Press ${this.controls.up} button to boost forward\n\nBoosts can be stacked to increase speed`,
         { fontSize: '30px', align: 'center' }
       )
       .setOrigin(0.5);
     this.textTwo = this.add
-      .text(400, 400, 'Press DOWN to stop', {
+      .text(400, 400, `Press ${this.controls.down} to stop`, {
         fontSize: '30px',
       })
       .setOrigin(0.5)
       .setVisible(false);
     this.textThree = this.add
-      .text(400, 400, 'Press > to rotate right', {
+      .text(400, 400, `Press ${this.controls.right} to rotate right`, {
         fontSize: '30px',
       })
       .setOrigin(0.5)
       .setVisible(false);
     this.textFour = this.add
-      .text(400, 400, 'Press < to rotate left', {
+      .text(400, 400, `Press ${this.controls.left} to rotate left`, {
         fontSize: '30px',
       })
       .setOrigin(0.5)
       .setVisible(false);
     this.textFive = this.add
-      .text(400, 400, 'When you are ready, press SPACE to continue', {
-        fontSize: '30px',
-      })
+      .text(
+        400,
+        400,
+        `When you are ready, press ${this.controls.space} to continue`,
+        {
+          fontSize: '30px',
+        }
+      )
       .setOrigin(0.5)
       .setVisible(false);
-    this.add.text(400, 700, 'Press ENTER to start playing').setOrigin(0.5);
+    this.add
+      .text(400, 700, `Press ${this.controls.enter} to start playing`)
+      .setOrigin(0.5);
+    this.createPlayer(2);
+    this.stage = 'boost';
   }
 
   update() {

@@ -18,10 +18,10 @@ export default class ControlsRemap extends BaseScene {
   create() {
     controlsStore.subscribe(() => {
       this[this.controls.style].setColor('#FFFFFF');
-      this.spaceship.destroy();
-      this.createPlayerAndControls(2);
+      this.createControls();
     });
     this.add.image(400, 400, 'starfield');
+    this.createControls();
     this.add
       .text(400, 150, 'Pick your control scheme', { fontSize: '30px' })
       .setOrigin(0.5);
@@ -83,7 +83,7 @@ export default class ControlsRemap extends BaseScene {
       .text(400, 750, 'Press SPACE to return to home screen')
       .setOrigin(0.5);
 
-    this.createPlayerAndControls(2);
+    this.createPlayer(2);
     this.createAnims();
     this.enter = this.input.keyboard.addKey('ENTER');
     this.space = this.input.keyboard.addKey('SPACE');

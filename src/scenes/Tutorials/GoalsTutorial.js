@@ -14,6 +14,7 @@ export default class GoalsTutorial extends BaseScene {
 
   create() {
     this.add.image(400, 400, 'starfield');
+    this.createControls();
     this.textOne = this.add
       .text(400, 450, 'AVOID THE BLACK HOLE', {
         fontSize: '20px',
@@ -36,14 +37,16 @@ export default class GoalsTutorial extends BaseScene {
         fontSize: '20px',
       })
       .setOrigin(0.5);
-    this.add.text(400, 750, 'Press ENTER to start playing').setOrigin(0.5);
+    this.add
+      .text(400, 750, `Press ${this.controls.enter} to start playing`)
+      .setOrigin(0.5);
     this.createBlackHole(2);
     this.createObjectGroups();
     this.createStar(200, 600, null, 2);
     this.createNeutronStar(600, 600, null, 1);
     this.createNebula(200, 250, null, 2);
     this.createNebula(600, 250, null, 2);
-    this.createPlayerAndControls(2);
+    this.createPlayer(2);
     this.createAnims();
     this.createColliders(this.collectFuel, this.collectResources);
     this.createContolsDisplay();

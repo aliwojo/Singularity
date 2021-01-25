@@ -14,6 +14,7 @@ export default class GoalsTutorial extends BaseScene {
 
   create() {
     this.add.image(400, 400, 'starfield');
+    this.createControls();
     this.textOne = this.add
       .text(400, 300, 'BLACK HOLE and NEUTRON STARS = DEATH', {
         fontSize: '20px',
@@ -41,7 +42,9 @@ export default class GoalsTutorial extends BaseScene {
         fontSize: '20px',
       })
       .setOrigin(0.5);
-    this.add.text(400, 750, 'Press ENTER to start playing').setOrigin(0.5);
+    this.add
+      .text(400, 750, `Press ${this.controls.enter} to start playing`)
+      .setOrigin(0.5);
     this.createBlackHole(1);
     this.createObjectGroups();
     this.createGavityZones();
@@ -49,7 +52,7 @@ export default class GoalsTutorial extends BaseScene {
     this.createNeutronStar(600, 600);
     this.createNebula(200, 250);
     this.createNebula(600, 250);
-    this.createPlayerAndControls(1);
+    this.createPlayer(1);
     this.createAnims();
     this.createColliders(
       this.collectFuel,

@@ -28,16 +28,19 @@ export default class BaseScene extends Phaser.Scene {
     this.load.image('nebula', 'assets/sprites/Nebula.png');
   }
 
-  createPlayerAndControls(scale = 1) {
+  createControls() {
     this.controls = controlsStore.getState();
     this.cursors = this.input.keyboard.createCursorKeys();
     this.cursors.up = this.input.keyboard.addKey(this.controls.up);
     this.cursors.down = this.input.keyboard.addKey(this.controls.down);
     this.cursors.right = this.input.keyboard.addKey(this.controls.right);
     this.cursors.left = this.input.keyboard.addKey(this.controls.left);
-    this.cursors.enter = this.input.keyboard.addKey(this.cursors.enter);
-    this.cursors.space = this.input.keyboard.addKey(this.cursors.space);
-    this.cursors.shift = this.input.keyboard.addKey(this.cursors.shift);
+    this.cursors.enter = this.input.keyboard.addKey(this.controls.enter);
+    this.cursors.space = this.input.keyboard.addKey(this.controls.space);
+    this.cursors.shift = this.input.keyboard.addKey(this.controls.shift);
+  }
+
+  createPlayer(scale = 1) {
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
       .setCircle(32)
       .setScale(scale);
