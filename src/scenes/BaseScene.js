@@ -6,6 +6,7 @@ import GravityZone from '../entity/GravityZone';
 import Spaceship from '../entity/Spaceship';
 import Star from '../entity/Star';
 import Nebula from '../entity/Nebula';
+import coordinates from '../entity/coordinates';
 
 export { BlackHole, GravityZone, Spaceship, Star, Nebula };
 
@@ -29,6 +30,20 @@ export default class BaseScene extends Phaser.Scene {
     this.load.image('nebula2', 'assets/sprites/Nebula2.png');
     this.load.image('nebula3', 'assets/sprites/Nebula3.png');
     this.load.image('nebula4', 'assets/sprites/Nebula4.png');
+    this.load.image('neutronStar', 'assets/sprites/NeutronStar.png');
+  }
+
+  randomGenObjects() {
+    const shuffledCoords = Phaser.Math.RND.shuffle(coordinates);
+    for (let i = 0; i < 40; i++) {
+      if (i < 5) {
+        this.createStar(...shuffledCoords[i]);
+      } else if (i < 15) {
+        this.createNeutronStar(...shuffledCoords[i]);
+      } else if (i < 40) {
+        this.createNebula(...shuffledCoords[i]);
+      }
+    }
   }
 
   createControls() {
@@ -44,13 +59,13 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createPlayer(scale = 1) {
-    this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
+    this.spaceship = new Spaceship(this, 50, 100, 'spaceship')
       .setCircle(20, 12, 12)
       .setScale(scale);
   }
 
   //sprites
-  createBlackHole(scale = 1) {
+  createBlackHole(scale = 1.5) {
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(scale)
       .setCircle(16, 16, 16);
@@ -144,10 +159,11 @@ export default class BaseScene extends Phaser.Scene {
 
   createNeutronStar(x, y, color, scale = 0.5) {
     this.neutronGroup.add(
-      new Star(this, x, y, 'star', scale)
+      new Star(this, x, y, 'neutronStar', scale)
         .setTint(color)
         .setScale(scale)
         .setCircle(20, 12, 12)
+        .setAngularVelocity(20)
     );
   }
 
@@ -297,7 +313,6 @@ export default class BaseScene extends Phaser.Scene {
     objects.forEach((obj) => {
       const distance = Phaser.Math.Distance.Between(400, 400, obj.x, obj.y);
       Phaser.Actions.RotateAround([obj], { x: 400, y: 400 }, 0.3 / distance);
-      obj.setAngularVelocity(10);
     });
   }
   gameOver() {
