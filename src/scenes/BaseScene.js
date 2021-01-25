@@ -39,10 +39,6 @@ export default class BaseScene extends Phaser.Scene {
       'gameOverSound',
       'assets/audio/tspt_deep_laser_blast_01_026.mp3'
     );
-    this.load.audio(
-      'collectSound',
-      'assets/audio/Ryan_VanEerde_Sci-Fi_Mechanical_5_32.mp3'
-    );
   }
 
   randomGenObjects() {
@@ -71,7 +67,6 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createPlayer(scale = 1) {
-    this.collectSound = this.sound.add('collectSound');
     this.boostSound = this.sound.add('boostSound');
     this.spaceship = new Spaceship(this, 50, 100, 'spaceship')
       .setCircle(20, 12, 12)
