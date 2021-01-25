@@ -67,7 +67,7 @@ export default class FgScene extends BaseScene {
 
   update() {
     this.setCurrentZone();
-    this.spaceship.update(this.cursors, this.currentZone);
+    this.spaceship.update(this.cursors, this.currentZone, this.boostSound);
     this.updateDisplay();
     this.updateRotations([
       ...this.starGroup.getChildren(),

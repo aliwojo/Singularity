@@ -8,9 +8,16 @@ export default class BgScene extends Phaser.Scene {
 
   preload() {
     this.load.image('starfield', 'assets/backgrounds/starfield.png');
+    this.load.audio(
+      'bgmusic',
+      'assets/audio/music_zapsplat_game_music_action_dark_electronic_dramatic_tension_electronica_002.mp3'
+    );
   }
 
   create() {
+    this.bgMusic = this.sound.add('bgmusic');
+    this.bgMusic.setLoop(true);
+    this.bgMusic.play();
     this.add.image(400, 400, 'starfield');
     this.controls = controlsStore.getState();
     this.enter = this.input.keyboard.addKey(this.controls.enter);

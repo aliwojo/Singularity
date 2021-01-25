@@ -31,6 +31,18 @@ export default class BaseScene extends Phaser.Scene {
     this.load.image('nebula3', 'assets/sprites/Nebula3.png');
     this.load.image('nebula4', 'assets/sprites/Nebula4.png');
     this.load.image('neutronStar', 'assets/sprites/NeutronStar.png');
+    this.load.audio(
+      'boostSound',
+      'assets/audio/esm_8bit_explosion_medium_bomb_boom_blast_cannon_retro_old_school_classic_cartoon.mp3'
+    );
+    this.load.audio(
+      'gameOverSound',
+      'assets/audio/tspt_deep_laser_blast_01_026.mp3'
+    );
+    this.load.audio(
+      'collectSound',
+      'assets/audio/Ryan_VanEerde_Sci-Fi_Mechanical_5_32.mp3'
+    );
   }
 
   randomGenObjects() {
@@ -59,6 +71,8 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createPlayer(scale = 1) {
+    this.collectSound = this.sound.add('collectSound');
+    this.boostSound = this.sound.add('boostSound');
     this.spaceship = new Spaceship(this, 50, 100, 'spaceship')
       .setCircle(20, 12, 12)
       .setScale(scale);
@@ -66,6 +80,7 @@ export default class BaseScene extends Phaser.Scene {
 
   //sprites
   createBlackHole(scale = 1.5) {
+    this.gameOverSound = this.sound.add('gameOverSound');
     this.blackHole = new BlackHole(this, 'blackHole')
       .setScale(scale)
       .setCircle(16, 16, 16);
@@ -293,16 +308,21 @@ export default class BaseScene extends Phaser.Scene {
       Phaser.Actions.RotateAround([obj], { x: 400, y: 400 }, 0.3 / distance);
     });
   }
+
   gameOver() {
+    this.gameOverSound.play();
     this.scene.start('GameOverScene');
   }
+
   statusEndGame() {
     if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
+      //this.bgMusic.stop();
       this.scene.start('GameOverScene');
       //this.endGame('GAME OVER');
     }
 
     if (this.spaceship.resourcesCollected === this.availableResources) {
+      //this.bgMusic.stop();
       this.scene.start('WinScene');
       //this.endGame('YOU WIN!');
     }

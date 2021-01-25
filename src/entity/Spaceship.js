@@ -15,11 +15,11 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
     this.boosts = 0;
   }
 
-  update(cursors, currentZone) {
-    this.updateMovement(cursors, currentZone);
+  update(cursors, currentZone, sound) {
+    this.updateMovement(cursors, currentZone, sound);
   }
 
-  updateMovement(cursors, currentZone) {
+  updateMovement(cursors, currentZone, sound) {
     if (cursors.up.isDown) {
       if (!this.isBoosted) {
         this.boosts += 1;
@@ -28,6 +28,7 @@ export default class Spaceship extends Phaser.Physics.Arcade.Sprite {
           this.boosts * 100,
           this.body.velocity
         );
+        sound.play();
         this.anims.play('boost');
         this.fuelLevel -= 3 * currentZone;
         if (this.fuelLevel < 0) this.fuelLevel = 0;
