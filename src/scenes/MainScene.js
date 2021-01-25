@@ -27,28 +27,6 @@ export default class FgScene extends BaseScene {
 
     this.randomGenObjects();
 
-    // this.createStar(150, 150);
-    // this.createStar(650, 650);
-    // this.createStar(150, 650);
-    // this.createStar(650, 150);
-
-    // this.createNeutronStar(300, 200);
-    // this.createNeutronStar(200, 300);
-    // this.createNeutronStar(600, 300);
-    // this.createNeutronStar(300, 600);
-
-    // this.createNebula(200, 200);
-    // this.createNebula(200, 400);
-    // this.createNebula(400, 200);
-    // this.createNebula(400, 600);
-    // this.createNebula(300, 300);
-    // this.createNebula(300, 500);
-    // this.createNebula(350, 350);
-    // this.createNebula(600, 400);
-    // this.createNebula(500, 500);
-    // this.createNebula(450, 350);
-    // this.createNebula(600, 200);
-
     this.createPlayer(1);
     this.createControls();
 
@@ -90,7 +68,7 @@ export default class FgScene extends BaseScene {
   update() {
     this.setCurrentZone();
     this.spaceship.update(this.cursors, this.currentZone);
-    this.updateText();
+    this.updateDisplay();
     this.updateRotations([
       ...this.starGroup.getChildren(),
       ...this.nebulaGroup.getChildren(),

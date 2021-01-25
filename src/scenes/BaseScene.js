@@ -148,32 +148,26 @@ export default class BaseScene extends Phaser.Scene {
         : 1;
   }
 
-  createStar(x, y, color, scale = 1) {
+  createStar(x, y, scale = 1) {
     this.starGroup.add(
-      new Star(this, x, y, 'star', scale)
-        .setTint(color)
-        .setScale(scale)
-        .setCircle(20, 12, 12)
+      new Star(this, x, y, 'star', scale).setScale(scale).setCircle(20, 12, 12)
     );
   }
 
-  createNeutronStar(x, y, color, scale = 0.5) {
+  createNeutronStar(x, y, scale = 0.5) {
     this.neutronGroup.add(
       new Star(this, x, y, 'neutronStar', scale)
-        .setTint(color)
         .setScale(scale)
         .setCircle(20, 12, 12)
-        .setAngularVelocity(20)
     );
   }
 
-  createNebula(x, y, color, scale = 1) {
+  createNebula(x, y, scale = 1) {
     const num = Math.ceil(Math.random() * 4);
     this.nebulaGroup.add(
       new Nebula(this, x, y, `nebula${num}`, scale)
-        .setTint(color)
-        .setScale(scale)
         .setCircle(32)
+        .setScale(scale)
     );
   }
 
@@ -186,20 +180,17 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createStatusDisplay() {
-    this.timerDisplay = this.add.text(50, 25, `Time remaining: ${this.timer}`, {
+    this.timerDisplay = this.add.text(20, 15, `TIME: ${this.timer}`, {
       color: '#69ff33',
       fontSize: '20px',
     });
-    this.fuelLevelDisplay = this.add.text(
-      50,
-      50,
-      `Fuel Level: ${this.spaceship.fuelLevel}%`,
-      {
-        color: '#69ff33',
-        fontSize: '20px',
-      }
-    );
-    this.resourcesDisplay = this.add.text(640, 25, 'RESOURCES', {
+    this.add.text(20, 35, 'FUEL:', { color: '#69ff33', fontSize: '20px' });
+    this.add.rectangle(20, 60, 100, 10, 0xffffff).setOrigin(0);
+    this.fuelLevelDisplay = this.add
+      .rectangle(20, 60, this.spaceship.fuelLevel, 10, 0x69ff33)
+      .setOrigin(0);
+
+    this.resourcesDisplay = this.add.text(650, 15, 'RESOURCES:', {
       color: '#69ff33',
       fontSize: 20,
     });
@@ -207,23 +198,12 @@ export default class BaseScene extends Phaser.Scene {
       .getChildren()
       .map((nebula) => nebula.resources)
       .reduce((sum, num) => sum + num);
-    this.availableResourcesDisplay = this.add.text(
-      640,
-      50,
-      `Available: ${this.availableResources}`,
-      {
-        color: '#69ff33',
-      }
-    );
-    this.resourcesCollectedDisplay = this.add.text(
-      640,
-      70,
-      `COLLECTED: ${this.spaceship.resourcesCollected}`,
-      {
-        color: '#69ff33',
-        fontSize: 20,
-      }
-    );
+    this.add
+      .rectangle(650, 40, this.availableResources, 10, 0xffffff)
+      .setOrigin(0);
+    this.resourcesCollectedDisplay = this.add
+      .rectangle(650, 40, this.spaceship.resourcesCollected, 10, 0x69ff33)
+      .setOrigin(0);
   }
 
   createContolsDisplay() {
@@ -295,17 +275,15 @@ export default class BaseScene extends Phaser.Scene {
     });
   }
 
-  updateText() {
-    this.timerDisplay.setText(`Time: ${Math.round(this.timeRemaining)}`);
+  updateDisplay() {
+    this.timerDisplay.setText(`TIME: ${Math.round(this.timeRemaining)}`);
     if (this.timeRemaining < 10) this.timerDisplay.setColor('#fa1013');
-    this.fuelLevelDisplay.setText(
-      `Fuel: ${Math.round(this.spaceship.fuelLevel)}%`
-    );
+    this.fuelLevelDisplay.setSize(this.spaceship.fuelLevel, 10);
     if (this.spaceship.fuelLevel < 10)
-      this.fuelLevelDisplay.setColor('#fa1013');
-
-    this.resourcesCollectedDisplay.setText(
-      `COLLECTED: ${this.spaceship.resourcesCollected}`
+      this.fuelLevelDisplay.setFillStyle(0xfa1013);
+    this.resourcesCollectedDisplay.setSize(
+      this.spaceship.resourcesCollected,
+      10
     );
   }
 

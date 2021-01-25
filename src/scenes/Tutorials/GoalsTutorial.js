@@ -40,12 +40,12 @@ export default class GoalsTutorial extends BaseScene {
     this.add
       .text(400, 750, `Press ${this.controls.enter} to start playing`)
       .setOrigin(0.5);
-    this.createBlackHole(2);
+    this.createBlackHole();
     this.createObjectGroups();
-    this.createStar(200, 600, null, 2);
-    this.createNeutronStar(600, 600, null, 1);
-    this.createNebula(200, 250, null, 2);
-    this.createNebula(600, 250, null, 2);
+    this.createStar(200, 600, 2);
+    this.createNeutronStar(600, 600, 1);
+    this.createNebula(200, 250, 2);
+    this.createNebula(600, 250, 2);
     this.createPlayer(2);
     this.createAnims();
     this.createColliders(this.collectFuel, this.collectResources);
@@ -56,7 +56,7 @@ export default class GoalsTutorial extends BaseScene {
   update() {
     this.setCurrentZone();
     this.spaceship.update(this.cursors, this.currentZone);
-    this.updateText();
+    this.updateDisplay();
     if (this.spaceship.resourcesCollected === this.availableResources) {
       this.textFour.setText('Press SPACE to continue tutorial');
       if (this.cursors.space.isDown) {
