@@ -10,20 +10,27 @@ module.exports = {
 
   entry: './src/index.js',
 
-  // devServer: {
-  //   contentBase: './public',
-  //   inline: true,
-  //   hot: true,
-  // },
+  devServer: {
+    contentBase: './public',
+    inline: false,
+  },
 
   output: {
     path: path.resolve(__dirname, 'public'),
-    publicPath: '/public/',
+    publicPath: '/',
     filename: 'bundle.js',
   },
 
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, 'src/'),
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
       {
         test: [/\.vert$/, /\.frag$/],
         use: 'raw-loader',

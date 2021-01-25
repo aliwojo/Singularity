@@ -42,7 +42,7 @@ export default class BaseScene extends Phaser.Scene {
 
   createPlayer(scale = 1) {
     this.spaceship = new Spaceship(this, 100, 100, 'spaceship')
-      .setCircle(32)
+      .setCircle(20, 12, 12)
       .setScale(scale);
   }
 

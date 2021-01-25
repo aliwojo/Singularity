@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "babel-loader": "^8.2.2",
+    "babel-preset-env": "^1.7.0",
     "path": "^0.12.7",
     "phaser": "^3.50.1",
     "redux": "^4.0.5"
