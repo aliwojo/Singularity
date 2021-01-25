@@ -25,7 +25,10 @@ export default class BaseScene extends Phaser.Scene {
       frameHeight: 64,
     });
     this.load.image('gravityZone', 'assets/sprites/gravityZone.png');
-    this.load.image('nebula', 'assets/sprites/Nebula.png');
+    this.load.image('nebula1', 'assets/sprites/Nebula.png');
+    this.load.image('nebula2', 'assets/sprites/Nebula2.png');
+    this.load.image('nebula3', 'assets/sprites/Nebula3.png');
+    this.load.image('nebula4', 'assets/sprites/Nebula4.png');
   }
 
   createControls() {
@@ -149,8 +152,9 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   createNebula(x, y, color, scale = 1) {
+    const num = Math.ceil(Math.random() * 4);
     this.nebulaGroup.add(
-      new Nebula(this, x, y, 'nebula', scale)
+      new Nebula(this, x, y, `nebula${num}`, scale)
         .setTint(color)
         .setScale(scale)
         .setCircle(32)
