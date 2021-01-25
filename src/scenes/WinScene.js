@@ -23,13 +23,12 @@ export default class BgScene extends Phaser.Scene {
       .setOrigin(0.5);
     this.enter = this.input.keyboard.addKey(this.controls.enter);
     this.shift = this.input.keyboard.addKey(this.controls.shift);
-    const mainScene = this.scene.get('MainScene');
-    mainScene.scene.restart();
-    this.scene.pause('MainScene');
   }
 
   update() {
     if (this.enter.isDown) {
+      const mainScene = this.scene.get('MainScene');
+      mainScene.scene.restart();
       this.scene.start('MainScene');
     }
     if (this.shift.isDown) {

@@ -30,7 +30,7 @@ export default class BaseScene extends Phaser.Scene {
 
   createControls() {
     this.controls = controlsStore.getState();
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.cursors = {};
     this.cursors.up = this.input.keyboard.addKey(this.controls.up);
     this.cursors.down = this.input.keyboard.addKey(this.controls.down);
     this.cursors.right = this.input.keyboard.addKey(this.controls.right);
