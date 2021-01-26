@@ -20,6 +20,7 @@ export default class FgScene extends BaseScene {
     this.blackHoleCollision = false;
 
     //sprites
+    this.playmusic();
     this.createBlackHole();
     this.createObjectGroups();
 

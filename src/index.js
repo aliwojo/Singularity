@@ -4,8 +4,7 @@ import 'phaser';
 import config from './config/config';
 import MainScene from './scenes/MainScene';
 import OpeningScene from './scenes/OpeningScene';
-import EndScene from './scenes/WinScene';
-import GameOverScene from './scenes/GameOverScene';
+import { GameOverScene, WinScene } from './scenes/EndScene';
 import ControlsTutorial from './scenes/Tutorials/ControlsTutorial';
 import GoalsTutorial from './scenes/Tutorials/GoalsTutorial';
 import EndStateTutorial from './scenes/Tutorials/EndStateTutorial';
@@ -20,7 +19,7 @@ class Game extends Phaser.Game {
     this.scene.add('ControlsRemap', ControlsRemap);
     this.scene.add('MainScene', MainScene);
     this.scene.add('OpeningScene', OpeningScene);
-    this.scene.add('WinScene', EndScene);
+    this.scene.add('WinScene', WinScene);
     this.scene.add('GameOverScene', GameOverScene);
 
     this.scene.start('OpeningScene');

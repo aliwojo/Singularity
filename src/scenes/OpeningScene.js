@@ -47,12 +47,15 @@ export default class BgScene extends Phaser.Scene {
 
   update() {
     if (this.space.isDown) {
+      this.bgMusic.stop();
       this.scene.start('ControlsTutorial');
     }
     if (this.enter.isDown) {
+      this.bgMusic.stop();
       this.scene.start('MainScene');
     }
     if (this.shift.isDown) {
+      this.bgMusic.stop();
       this.scene.start('ControlsRemap');
     }
   }

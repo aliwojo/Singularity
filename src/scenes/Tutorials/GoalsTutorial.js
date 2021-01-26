@@ -55,7 +55,7 @@ export default class GoalsTutorial extends BaseScene {
 
   update() {
     this.setCurrentZone();
-    this.spaceship.update(this.cursors, this.currentZone);
+    this.spaceship.update(this.cursors, this.currentZone, this.boostSound);
     this.updateDisplay();
     if (this.spaceship.resourcesCollected === this.availableResources) {
       this.textFour.setText('Press SPACE to continue tutorial');

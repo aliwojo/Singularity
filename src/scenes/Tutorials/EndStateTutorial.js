@@ -66,7 +66,7 @@ export default class GoalsTutorial extends BaseScene {
 
   update() {
     this.setCurrentZone();
-    this.spaceship.update(this.cursors, this.currentZone);
+    this.spaceship.update(this.cursors, this.currentZone, this.boostSound);
     this.updateRotations([
       ...this.starGroup.getChildren(),
       ...this.nebulaGroup.getChildren(),
@@ -90,6 +90,7 @@ export default class GoalsTutorial extends BaseScene {
   }
 
   fakeGameOver() {
+    this.gameOverSound.play();
     this.textThree.setText('GAME OVER');
     this.time.addEvent({
       delay: 1000,

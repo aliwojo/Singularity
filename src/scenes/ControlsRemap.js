@@ -96,7 +96,7 @@ export default class ControlsRemap extends BaseScene {
   }
 
   update() {
-    this.spaceship.update(this.cursors);
+    this.spaceship.update(this.cursors, null, this.boostSound);
     this[this.controls.style].setColor('#69ff33');
     if (Phaser.Input.Keyboard.JustUp(this.one)) {
       controlsStore.dispatch(rightHandControls());

@@ -39,6 +39,15 @@ export default class BaseScene extends Phaser.Scene {
       'gameOverSound',
       'assets/audio/tspt_deep_laser_blast_01_026.mp3'
     );
+    this.load.audio(
+      'bgmusic',
+      'assets/audio/music_zapsplat_game_music_action_dark_electronic_dramatic_tension_electronica_002.mp3'
+    );
+  }
+  playmusic() {
+    this.bgMusic = this.sound.add('bgmusic');
+    this.bgMusic.setLoop(true);
+    this.bgMusic.play();
   }
 
   randomGenObjects() {
@@ -305,19 +314,20 @@ export default class BaseScene extends Phaser.Scene {
   }
 
   gameOver() {
+    this.bgMusic.stop();
     this.gameOverSound.play();
     this.scene.start('GameOverScene');
   }
 
   statusEndGame() {
     if (this.spaceship.fuelLevel === 0 || this.timeRemaining <= 0) {
-      //this.bgMusic.stop();
+      this.bgMusic.stop();
       this.scene.start('GameOverScene');
       //this.endGame('GAME OVER');
     }
 
     if (this.spaceship.resourcesCollected === this.availableResources) {
-      //this.bgMusic.stop();
+      this.bgMusic.stop();
       this.scene.start('WinScene');
       //this.endGame('YOU WIN!');
     }

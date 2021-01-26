@@ -55,7 +55,7 @@ export default class ControlsTutorial extends BaseScene {
   }
 
   update() {
-    this.spaceship.update(this.cursors, this.currentZone);
+    this.spaceship.update(this.cursors, this.currentZone, this.boostSound);
     if (this.cursors.up.isDown && this.stage === 'boost') {
       this.time.addEvent({
         delay: 2000,
