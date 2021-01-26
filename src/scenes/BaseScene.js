@@ -298,7 +298,7 @@ export default class BaseScene extends Phaser.Scene {
     this.timerDisplay.setText(`TIME: ${Math.round(this.timeRemaining)}`);
     if (this.timeRemaining < 10) this.timerDisplay.setColor('#fa1013');
     this.fuelLevelDisplay.setSize(this.spaceship.fuelLevel, 10);
-    if (this.spaceship.fuelLevel < 10)
+    if (this.spaceship.fuelLevel < 25)
       this.fuelLevelDisplay.setFillStyle(0xfa1013);
     this.resourcesCollectedDisplay.setSize(
       this.spaceship.resourcesCollected,
