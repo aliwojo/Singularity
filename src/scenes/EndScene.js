@@ -10,13 +10,13 @@ class EndScene extends Phaser.Scene {
   preload() {
     this.load.image('starfield', 'assets/backgrounds/starfield.png');
     this.load.audio(
-      'bgmusic',
-      'assets/audio/music_zapsplat_game_music_action_dark_electronic_dramatic_tension_electronica_002.mp3'
+      'ending',
+      'assets/audio/little_robot_sound_factory_Ambience_BlackHole_00.mp3'
     );
   }
 
   create() {
-    this.bgMusic = this.sound.add('bgmusic');
+    this.bgMusic = this.sound.add('ending');
     this.bgMusic.setLoop(true);
     this.bgMusic.play();
     this.add.image(400, 400, 'starfield');
@@ -35,10 +35,12 @@ class EndScene extends Phaser.Scene {
   update() {
     if (this.enter.isDown) {
       this.bgMusic.stop();
+      this.bgMusic.destroy();
       this.scene.start('MainScene');
     }
     if (this.shift.isDown) {
       this.bgMusic.stop();
+      this.bgMusic.destroy();
       this.scene.start('ControlsRemap');
     }
   }

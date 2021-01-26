@@ -1,7 +1,7 @@
 import 'phaser';
 import controlsStore from '../redux/controlsStore';
 
-export default class BgScene extends Phaser.Scene {
+export default class OpeningScene extends Phaser.Scene {
   constructor() {
     super('OpeningScene');
   }
@@ -12,10 +12,14 @@ export default class BgScene extends Phaser.Scene {
       'bgmusic',
       'assets/audio/music_zapsplat_game_music_action_dark_electronic_dramatic_tension_electronica_002.mp3'
     );
+    this.load.audio(
+      'opening',
+      'assets/audio/little_robot_sound_factory_Ambience_BlackHole_00.mp3'
+    );
   }
 
   create() {
-    this.bgMusic = this.sound.add('bgmusic');
+    this.bgMusic = this.sound.add('opening');
     this.bgMusic.setLoop(true);
     this.bgMusic.play();
     this.add.image(400, 400, 'starfield');
@@ -23,13 +27,11 @@ export default class BgScene extends Phaser.Scene {
     this.enter = this.input.keyboard.addKey(this.controls.enter);
     this.space = this.input.keyboard.addKey(this.controls.space);
     this.shift = this.input.keyboard.addKey(this.controls.shift);
-    this.add
-      .text(400, 300, 'Black Hole Miner', { fontSize: '40px' })
-      .setOrigin(0.5);
+    this.add.text(400, 300, 'Singularity', { fontSize: '40px' }).setOrigin(0.5);
     this.add
       .text(
         400,
-        500,
+        600,
         `Press ${this.controls.enter} to begin\n\nPress SPACE for tutorial\n\nPress SHIFT to choose control scheme`,
         {
           align: 'center',
@@ -39,8 +41,9 @@ export default class BgScene extends Phaser.Scene {
     this.add
       .text(
         400,
-        350,
-        'Black Holes are dangerous, but the resources in orbit are valuable'
+        375,
+        'Black Holes are dangerous, but the resources in orbit are valuable.\n\nYour job: Collect them, carefully.',
+        { align: 'center' }
       )
       .setOrigin(0.5);
   }
