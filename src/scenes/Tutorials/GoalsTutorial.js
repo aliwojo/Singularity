@@ -7,6 +7,7 @@ import BaseScene, {
   Nebula,
 } from '../BaseScene';
 
+//BUG when ship runs out of fuel the scene stops
 export default class GoalsTutorial extends BaseScene {
   constructor() {
     super('GoalsTutorial');

@@ -1,7 +1,7 @@
 {
   "name": "soloproject.asyncweek",
   "version": "1.0.0",
-  "description": "My first game build",
+  "description": "A retro resource collection game about black holes",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

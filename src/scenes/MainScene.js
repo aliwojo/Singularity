@@ -6,9 +6,8 @@ import GravityZone from '../entity/GravityZone';
 import Spaceship from '../entity/Spaceship';
 import Star from '../entity/Star';
 import Nebula from '../entity/Nebula';
-//import coordinates from '../entity/coordinates';
 
-export default class FgScene extends BaseScene {
+export default class MainScene extends BaseScene {
   constructor() {
     super('MainScene');
   }
