@@ -1,7 +1,7 @@
 <h1 align="center">Singularity</h1>
 <h3 align="center">A retro resource collection game about black holes</h3>
 
-Singularity is a randomly generated retro game inspired by the effect black holes have on time and space. As you fly around the to collect resources and avoid neutron stars and the black hole itself, you will notice time and fuel consumption change depending on your proximity to the singularity.
+Singularity is a randomly generated retro game inspired by the effect black holes have on time and space. As you fly around to collect resources and avoid neutron stars and the black hole itself, you will notice time and fuel depletion change depending on your proximity to the singularity.
 
 ## Installation
 
